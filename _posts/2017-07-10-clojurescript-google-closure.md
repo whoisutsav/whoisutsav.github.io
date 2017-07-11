@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "ClojureScript and Google Closure"
-date:   2017-07-11 11:16:36 -0500
+date:   2017-07-10 11:16:36 -0500
 categories: 
 ---
 
@@ -21,7 +21,7 @@ return myVariable + myVariable;
 }
 
 // After
-function myFunction(){var a=3;return a+a;}
+function myFunction(){var myVariable=3;return myVariable+myVariable;}
 ```
 
 Another minification technique is to shorten variable names:
