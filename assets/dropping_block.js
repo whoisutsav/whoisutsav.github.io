@@ -1,7 +1,5 @@
 // Block.js
 
-const STAKE_X = 100;
-const STAKE_Y = 100;
 const GRAVITY = .198;
 const CANVAS_WIDTH = 300;
 const CANVAS_HEIGHT = 400;
@@ -16,7 +14,6 @@ var Block = function(x, y, vX, vY) {
     this.vY = vY;
     this.aX = 0;
     this.aY = GRAVITY;
-    this.weight = 100;
     this.width = BLOCK_WIDTH;
     this.height = BLOCK_HEIGHT;
 }
