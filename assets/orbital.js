@@ -1,9 +1,6 @@
 // Orbital
 
-var unit = 0;
-const ANIMATION_SPEED = 1;
-
-function draw() {
+function draw(timestamp) {
     let ctx = document.getElementById('canvas').getContext('2d');
 
     ctx.clearRect(0, 0, 400, 400); // clear canvas
@@ -26,15 +23,13 @@ function draw() {
     // draw circle
     ctx.beginPath();
     ctx.fillStyle = 'rgb(204, 102, 0)';
-    const ang = unit * (Math.PI/180);
+    const ang = (timestamp/30) * (Math.PI/180);
     const bodyX = centerX + radius * Math.cos(ang);
     const bodyY = centerY + radius * Math.sin(ang);
     ctx.arc(bodyX, bodyY, 15, 0, 2*Math.PI, true);
     ctx.fill();
 
-    unit += ANIMATION_SPEED;
     window.requestAnimationFrame(draw);
-
 }
 
 function init() {
