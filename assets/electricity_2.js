@@ -17,11 +17,12 @@ const Random = new function() {
     return R;
 }
 
-var Ring = function(x, y, r) {
+var Ring = function(x, y, r, color) {
     this.centerX = x;
     this.centerY = y;
     this.r = r;
     this.points = this.init();
+    this.strokeStyle = color || 'black';
 
     // todo - move this into the prototype? or enclose r
 }
@@ -49,6 +50,7 @@ Ring.prototype = {
         let centerX = this.centerX;
         let centerY = this.centerY;
         context.beginPath();
+        context.strokeStyle = this.strokeStyle;
         this.points.forEach(function(point, index) {
             let x = centerX + point.x;
             let y = centerY + point.y;
@@ -110,7 +112,6 @@ function init() {
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
     canvas.id = 'canvas';
-    //canvas.style="cursor: none;"
     base.appendChild(canvas);
     World.init();
 }
