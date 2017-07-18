@@ -1,6 +1,6 @@
 // Block.js
 
-const GRAVITY = .198;
+const GRAVITY = .498;
 const CANVAS_WIDTH = 300;
 const CANVAS_HEIGHT = 400;
 const FLOOR_Y = 350;
