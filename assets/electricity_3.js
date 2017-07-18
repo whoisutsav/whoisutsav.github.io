@@ -1,4 +1,4 @@
-// Electricity
+// Electricity III
 
 const CANVAS_WIDTH = 400;
 const CANVAS_HEIGHT = 400;
@@ -17,11 +17,14 @@ const Random = new function() {
     return R;
 }
 
-var Ring = function(x, y, r) {
+
+var Ring = function(x, y, r, color) {
     this.centerX = x;
     this.centerY = y;
     this.r = r;
     this.points = this.init();
+    this.strokeStyle = color || 'black';
+
 }
 
 Ring.prototype = {
@@ -29,7 +32,7 @@ Ring.prototype = {
         var theta = 0;
         let points = [];
         while(theta < Math.PI * 2) {
-            let radius = this.r + Random.float(-16, 16);
+            let radius = this.r + Random.float(-8, 8);
             points.push({x: radius*Math.cos(theta), y: radius*Math.sin(theta)})
             theta += Random.float(Math.PI/20, Math.PI/6);
         }
@@ -47,6 +50,7 @@ Ring.prototype = {
         let centerX = this.centerX;
         let centerY = this.centerY;
         context.beginPath();
+        context.strokeStyle = this.strokeStyle;
         this.points.forEach(function(point, index) {
             let x = centerX + point.x;
             let y = centerY + point.y;
@@ -61,11 +65,32 @@ Ring.prototype = {
     }
 }
 
+var Element = function(x, y, startRadius, dr, num, colors) {
+    this.rings = [];
+    for(let i=0; i<num; i++) {
+        let color = colors ? colors[i] : undefined;
+        this.rings.push(new Ring(x, y, startRadius + (dr * i), color));
+    }
+}
+
+Element.prototype = {
+    update: function() {
+        this.rings.forEach(function(ring) {
+            ring.update();
+        });
+    },
+    render: function(context) {
+        this.rings.forEach(function(ring) {
+            ring.render(context);
+        });
+    }
+}
+
 
 var World = new function() {
     var canvas = null;
     var ctx = null;
-    var RINGS = [];
+    var ELEMENTS = [];
     
     function onClick(e) {
     }
@@ -76,11 +101,12 @@ var World = new function() {
 
         canvas.addEventListener("click", onClick);
 
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 75));
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 85));
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 95));
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 105));
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 115));
+        ELEMENTS.push(new Element(CANVAS_WIDTH/4, CANVAS_HEIGHT/4, 45, 6, 5, [,,,'#ff0000']));
+        ELEMENTS.push(new Element(CANVAS_WIDTH*3/4, CANVAS_HEIGHT/4, 45, 6, 5, [,,,'#80bfff']));
+        ELEMENTS.push(new Element(CANVAS_WIDTH/4, CANVAS_HEIGHT*3/4, 45, 6, 5, [
+            '#a6a6a6','#a6a6a6','#a6a6a6','#4d4d4d','#a6a6a6']));
+        ELEMENTS.push(new Element(CANVAS_WIDTH*3/4, CANVAS_HEIGHT*3/4, 45, 6, 5, [
+            '#ffcc00','#33cc33','#6600ff','#ff9900','#0066ff']));
 
         setInterval(update, 100);
         update();
@@ -90,9 +116,9 @@ var World = new function() {
 
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-        RINGS.forEach(function(ring) {
-            ring.update();
-            ring.render(ctx);
+        ELEMENTS.forEach(function(element) {
+            element.update();
+            element.render(ctx);
         });
     }
 

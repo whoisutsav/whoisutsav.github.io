@@ -1,7 +1,7 @@
-// Electricity
+// Electricity II
 
-const CANVAS_WIDTH = 400;
-const CANVAS_HEIGHT = 400;
+const CANVAS_WIDTH = 500;
+const CANVAS_HEIGHT = 500;
 
 
 const Random = new function() {
@@ -17,14 +17,12 @@ const Random = new function() {
     return R;
 }
 
-var Ring = function(x, y, r, color) {
+var Ring = function(x, y, r) {
     this.centerX = x;
     this.centerY = y;
     this.r = r;
     this.points = this.init();
-    this.strokeStyle = color || 'black';
 
-    // todo - move this into the prototype? or enclose r
 }
 
 Ring.prototype = {
@@ -50,7 +48,6 @@ Ring.prototype = {
         let centerX = this.centerX;
         let centerY = this.centerY;
         context.beginPath();
-        context.strokeStyle = this.strokeStyle;
         this.points.forEach(function(point, index) {
             let x = centerX + point.x;
             let y = centerY + point.y;
@@ -65,13 +62,14 @@ Ring.prototype = {
     }
 }
 
+var RINGS = [];
 
 var World = new function() {
     var canvas = null;
     var ctx = null;
-    var RINGS = [];
     
     function onClick(e) {
+        RINGS = [new Ring(e.offsetX, e.offsetY, Random.float(25,115))]
     }
 
     function init() {
@@ -80,19 +78,11 @@ var World = new function() {
 
         canvas.addEventListener("click", onClick);
 
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 75));
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 85));
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 95));
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 105));
-        RINGS.push(new Ring(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 115));
-
-        setInterval(update, 100);
         update();
     }
 
     function update() {
-
-        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        requestAnimationFrame(update);
 
         RINGS.forEach(function(ring) {
             ring.update();
@@ -112,6 +102,7 @@ function init() {
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
     canvas.id = 'canvas';
+    canvas.style="border-color: gray; border-style: solid; border-width: 1px"
     base.appendChild(canvas);
     World.init();
 }

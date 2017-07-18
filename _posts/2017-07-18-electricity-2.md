@@ -1,9 +1,11 @@
 ---
 layout: post
 title:  "Electricity II"
-date:   2017-07-18 12:17:36 -0500
+date:   2017-07-18 10:31:36 -0500
 categories: 
 ---
+
+<sub><sub>click below</sub></sub>
 
 
 
