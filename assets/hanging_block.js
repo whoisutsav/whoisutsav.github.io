@@ -66,10 +66,9 @@ Block.prototype = {
         //var dragForce = Vector.multiply(this.velocity, -0.0001 * speed * speed);
         if(distance > ROPE_LENGTH) {
             var stretch = distance - ROPE_LENGTH;
-            var theta = Math.PI + Math.atan((this.stake.x - this.position.x)/(this.stake.y - this.position.y));
+            var theta = Math.atan2((this.stake.x - this.position.x), (this.stake.y - this.position.y));
             var springMagnitude = SPRING_CONSTANT * stretch;
             var springForce = new Vector(springMagnitude * Math.sin(theta), springMagnitude * Math.cos(theta));
-            console.log(springForce);
             this.force = Vector.add(
                 springForce,
                 this.gravityForce);
