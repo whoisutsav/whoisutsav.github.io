@@ -5,8 +5,6 @@ date:   2017-08-16 12:14:36 -0500
 categories: 
 ---
 
-# Thinking through minimax step-by-step
-
 I'd like to write about my experience learning and implementing minimax for the first time.
 
 Perhaps the line of thought that I followed might help others in understanding the concept, specifically as it relates to implementing an algorithm for tic-tac-toe.
