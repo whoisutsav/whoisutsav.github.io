@@ -1,11 +1,9 @@
 ---
 layout: post
-title:  "Configuration"
+title:  "Configuration: an exploration of basic principles"
 date:   2017-08-23 11:16:36 -0500
 categories: 
 ---
-
-# Configuration: an exploration of basics
 
 Despite having some exposure to development, or perhaps especially because of it, I've found that creating a tic-tac-toe game has been an invaluable opportunity to question and more deeply explore some fundamental programming ideas that I often took for granted. One of those ideas which I recently came across was how to design a program's initial configuration.
 
