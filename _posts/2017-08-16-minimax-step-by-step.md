@@ -32,7 +32,7 @@ Or, put another way: when it is our turn, we will have a set of available moves 
 
 Consider the above example. In this example, player "X" can choose from 3 possible moves. We need some way to quantify the maximum loss for each of these moves. Put it another way, we need some sort of "valuation function" that returns a maximum loss for each option. 
 
-#### Option 1: Worst possible case
+#### Solution 1: Worst possible case
 The first thing I considered here was, what if we assumed that subsequent decisions are arbitrary, and the maximum loss was just the worst possible scenario? Using the above example, if we choose (1), the worst possible case is we lose. Same if we choose option (3). But if we choose option (9), then the worst case is a tie. Let's choose to assign numerical weights to these scenarios: value a loss as a loss of +∞, value a tie as a loss of 0, and value a win as a loss of -∞
 
 	Valuation (using worst-case):
@@ -42,23 +42,23 @@ The first thing I considered here was, what if we assumed that subsequent decisi
 		
 Applying the concept of minimax here, the minimum of our "maximum losses" is the minimum of (+∞, +∞, 0), which is 0, move 9.
 
-#### Option 2: Likelihood of loss
+#### Solution 2: Likelihood of loss
 
 Is this approach sufficient? Consider this next example. Now I must admit it is a fake game that doesn't really make sense according to the traditional rules of tic-tac-toe, but will help illustrate some concepts:
 
 ![alt text](/assets/minimax_example_2.jpg)
 <sub>Example 2: 4 moves left. "X" indicates X wins, same for "O". "C" indicates cats game.</sub>
 
-X here can choose from 4 possible moves: 1, 2, 3 and 9. Let's focus on the moves 1 and 2, and ignore moves 3 and 9 for now. Let's assume all subsequent moves are random. If we use the valuation function described above, where the "maximum loss" for each move is just the worst possible scenario, then (1) and (2) should be valued equally - both could potentially lead to a loss for X. So according to our previous idea of valuation, either choice is equally good. This is clearly inaccurate - it would be best to choose (2), because if subsquent moves were random, X has a 50% chance of winning in that case, whereas it only has a 17% chance of winning for choice (1).
+Here, X can choose from 4 possible moves: 1, 2, 3 and 9. Let's focus on the moves 1 and 2, and ignore moves 3 and 9 for now. Let's assume all subsequent moves are random. If we use the valuation function described above, where the "maximum loss" for each move is just the worst possible scenario, then (1) and (2) should be valued equally - both could potentially lead to a loss for X. So according to our previous idea of valuation, either choice is equally good. This is clearly inaccurate - it would be best to choose (2), because if subsquent moves were random, X has a 50% chance of winning in that case, whereas it only has a 17% chance of winning for choice (1).
 
 So then is the right method of valuing each choice a function of the % of possible end states that lead to a win? That certainly seems reasonable.
 
-#### Option 3: Assume we are rational
+#### Solution 3: Assume we are rational
 
 ![alt text](/assets/minimax_example_3.jpg)
 <sub>Example 3</sub>
 
-Let's extend our previous example by considering move (9) in addition to move (2). By our new decision making process, between choice (2) and choice (9), choice 9 is superior: 4/6 end states lead to a win for X, while for choice (2), only 3/6 end states lead to a win for X. This holds if all players make arbitrary decisions. But if we assume others (and our) future decisions to be rational, it becomes clearer that option (2) is a better choice. For, no matter what "O" chooses after that, X can force him to ultimately lose. So our decision-making valuation must be improved further yet to account for our ability to make rational decisions.
+Let's extend our previous example by considering move (9) in addition to move (2). By our new decision making process, between choice (2) and choice (9), choice 9 is superior: 4/6 end states lead to a win for X, while for choice (2), only 3/6 end states lead to a win for X. This holds if all players make arbitrary decisions. But if we assume others (and our) future decisions to be rational, it becomes clearer that option (2) is a better choice. For, no matter what "O" chooses after X moves to (2), X can then force him to ultimately lose. So our valuation function must be improved further yet to account for our ability to make rational decisions.
 
 What would that function look like? It could be something along the lines of, "if we were to behave rationally for all of our subsequent turns, what is the maximum loss we could expect?"<sup>1</sup> In the case of example 3, choice (2), the maximum loss or worst case is that we win, i.e. a loss of -∞. There is no case where we lose or tie. In example 3 choice (9), the maximum loss is the case where we lose, or a loss of +∞. (We could just as well use -1, 1 instead of -∞, +∞). Since we want to _minimize_ our _maximum loss_, clearly the minimum is -∞, or choice 2.
 
