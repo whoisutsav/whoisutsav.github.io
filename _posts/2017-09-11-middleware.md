@@ -5,11 +5,11 @@ date:   2017-09-11 11:16:36 -0500
 categories: 
 ---
 
-What is middleware? I was initially confronted with this question when developing a web application in Clojure without a framework. Many web developers, myself included, work solely at the application layer and are usually even further insulated from the server (not to mention lower level system services) by a framework. Reflecting on the meaning of middleware has been a small first step towards developing a broader understanding of computer systems themselves.
+What is middleware? I was initially confronted with this question when developing a web application in Clojure without a framework. Many web developers, myself included, work solely at the application layer and are usually even further insulated from the server (not to mention lower level system services) by a framework. Thinking about middleware forces one to step outside the application for a moment, and think about the broader system. 
 
 ### The application, and the platform
 
-The first thing that was useful was to reflect on some terms. The first one, which is obvious, is the **application**. This is a custom program that provides a set of functionalities to a user. In a computer system, the application is at the top - the reason for existence.
+The first thing that was useful was to reflect on some terms. The first one, which is obvious, is the **application**. This is a custom program that provides a set of functionalities to a user. In a computer system, the application is the most visible piece.
 
 But the application rarely lives in a vacuum. It runs on some environment, or  **platform.** The platform forms an abstraction layer that provides services to the application. It is responsible for launching (and terminating) the application program. It services requests to and from the application. And it provides the environment in which the application executes.
 
