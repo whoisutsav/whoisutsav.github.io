@@ -7,7 +7,8 @@ categories:
 
 I'd like to briefly document my experience extracting core logic for a tic-tac-toe application. I came across this problem as part of an exercise to convert a console tic-tac-toe application into a web app. The experience showed that lower levels of functionality are more straightforward to identify and isolate, while at the high level (the edges between core functionality and implementation), the distinction is not so clear, and consolidation can be counterproductive.
 
-### Core logic
+
+## Core logic components
 
 What is shared across all games of tic-tac-toe? We could make a list quite easily: a board, players (and their markers), the rules for making a move (e.g. you cannot play an occupied space), the rules for what constitutes a win, among others.
 
@@ -15,7 +16,8 @@ More useful than a list is the structure of this functionality. The general stru
 
 ![alt text](/assets/tic-tac-toe-core-logic.jpg)
 
-### Higher level functionality
+
+## Extracting higher level functionality
 
 It's quite clear that the lower levels remain unchanged across different implementations. What is less clear is the parts of the program that deal with the game state and progression of game states.
 
@@ -23,7 +25,8 @@ In dealing with a game state, the action of taking a turn, i.e. making a move an
 
 What about the highest level, the parts of the program that deal with the progression of game states?
 
-### A failed exercise at the edges
+
+## A failed exercise at the edges
 
 It's quite clear that how the game progresses is different between a console and a web app. In a console app, the program would run until completion, whereas in a web app, the program might process only one move request. But I was curious to see whether we could at least find some functionality at this level that is shared, and consolidate it.
 
