@@ -19,13 +19,13 @@ More useful than a list is the structure of this functionality. The general stru
 
 It's quite clear that the lower levels remain unchanged across different implementations. What is less clear is the parts of the program that deal with the game state and progression of game states.
 
-In dealing with a game state, the action of taking a turn, i.e. making a move and switching players, is standard to tic-tac-toe, but how we get the move from a human player is not: it would be different for a web application, or a console application. So here we begin to see the edges begin to fray. But for the most part, logic here is shared.
+In dealing with a game state, the action of taking a turn, i.e. making a move and switching players, is standard, but how we get a move from a human player is not: it would be different for a web application, or a console application. So here we begin to see the edges begin to fray. But for the most part, logic here is shared.
 
 What about the highest level, the parts of the program that deal with the progression of game states?
 
 ### A failed exercise at the edges
 
-It's quite clear that how the game progresses is different between a console and a web app. In a console app, the program would run until completion, whereas in the web app, the program will run only for one or two moves. But I was curious to see whether we could at least find some functionality at this level that is shared, and consolidate it.
+It's quite clear that how the game progresses is different between a console and a web app. In a console app, the program would run until completion, whereas in a web app, the program might process only one move request. But I was curious to see whether we could at least find some functionality at this level that is shared, and consolidate it.
 
 One thin piece of logic that was shared was a control element: if the game is over, we should do some wrap-up action, whereas if the game is not over, we should take a turn. This seems like a core, albeit thin, piece of logic, and something that is part of all games, not just tic-tac-toe, no less. 
 
@@ -60,4 +60,4 @@ And further problems began to reveal themselves. How do we customize the looping
 			(-> (take-turn-fn game-state) (loop-fn))
 ```
 
-While there were alternatives, none were great, and at this point I declared this exercise pretty hopeless. It became clear that at the edges of the core functionality, the overlap between implementations become thinner, and while 90% of shared code could be consolidated, it would be counterproductive to consolidate the last 10%.
+While there were alternatives, none were great, and at this point I declared this exercise pretty hopeless. It became clear that at the edges of the core logic, the shared functionality becomes thinner, and while 90% of shared code overall can be consolidated, it would be counterproductive to consolidate the last 10%.
