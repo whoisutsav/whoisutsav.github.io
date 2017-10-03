@@ -18,7 +18,7 @@ The goal of science primarily seems to be to **explain** the world. That is, to 
 
 What, then, is engineering’s relationship to the world? It seems that while science aims to explain the world, the primary goal of engineering is to **manipulate** it. The first thing to note is that, in order to manipulate the world, it is easier to do so if one understands something about it. If I am to build some structure made of stone, it would be helpful to know properties of various stone types, e.g. type A is more durable than type B. So here we see a fundamental connection, that science enables engineering. But one quickly perceives this relationship to go both ways - if we improve our ability to manipulate the world, we increase our ability to observe phenomena and explain them.
 
-Also worth mentioning is that to manipulate the world one may require more than just material - also important are tools, people and organizations, or processes, and science can be involved in all facets. But explanations provided by science are never entirely complete (and usually debatable), and engineering bridges the gap between explanation and action.
+Also worth mentioning is that to manipulate the world one may require more than just material - also important are tools, people and organizations, or processes, and science can be involved in all facets. But explanations provided by science are never entirely complete (and often up for debate), and engineering bridges the gap between explanation and action.
 
 ### Mathematics
 
