@@ -31,9 +31,9 @@ var Matrix = {
         var column1 = [matrixB[1], matrixB[4], matrixB[7]];
         var column2 = [matrixB[2], matrixB[5], matrixB[8]];
         
-        var result0 = multiplyMatrixPoint(matrixA, column0);
-        var result1 = multiplyMatrixPoint(matrixA, column1);
-        var result2 = multiplyMatrixPoint(matrixA, column2);
+        var result0 = this.multiplyPoint(matrixA, column0);
+        var result1 = this.multiplyPoint(matrixA, column1);
+        var result2 = this.multiplyPoint(matrixA, column2);
         
         return [
           result0[0], result1[0], result2[0],
