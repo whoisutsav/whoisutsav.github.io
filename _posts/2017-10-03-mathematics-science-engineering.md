@@ -4,6 +4,7 @@ title:  "Mathematics, science, engineering"
 date:   2017-10-03 11:16:36 -0500
 categories: 
 ---
+### How are these fields related?
 
 I have been fortunate to have had exposure to these fields - to mathematics as a student, and to engineering through a career stint as a software developer. Though I have not been seriously involved with science, I’ve naturally had exposure through the other disciplines. Despite working in these fields for many years, only recently have I thought more about the **relationship between them**, and perhaps it might be useful to share my line of thought. 
 
@@ -25,7 +26,7 @@ Finally we come to mathematics’ relationship to the world. One aspect of mathe
 
 Of course almost every mathematician (and myself) would argue that the field is much broader than this, and has a deep and interesting relationship with the conceptual world, but for the purposes of our discussion we won’t delve into that.
 
-#### Connectedness
+### Connectedness 
 
 So by considering these fields' relationship to the world, we have begun to perceive certain qualities - those of **description, explanation, and manipulation.** What’s interesting is that these features seem to be intertwined in solving any problem, or perhaps any human endeavor. To solve a problem, it is best to know the problem, to understand the problem, and then to apply that knowledge to solve the problem. And while this categorization seems formal and distinct, perhaps that need not be the case - in art (or any activity), one must have some idea to express, an understanding of how to express and a means to express it, but one might do these things simultaneously, or without differentiating between them.
 
