@@ -9,29 +9,28 @@ var Random = {
     }
 }
 
-var Segment = function(x, y, shaded, rotation, width) { 
-    this.x = x;
-    this.y = y;
+var Segment = function(params) { 
+    this.x = params.x;
+    this.y = params.y;
 
-    this.rotation = (Math.PI/180) * rotation;
+    this.rotation = (Math.PI/180) * params.rotation;
+    this.width = params.width;
+    this.growthRate = params.growthRate;
+    this.color = params.shaded ? 'rgb(38, 145, 52)' : 'rgb(35, 147, 50)'
+
     this.taper = (Math.PI/180) * 0.5;
-    this.width = width;
     this.maturity = 0;
-    this.growthRate = 100;
-
     this.length = 20; 
     this.grown = false;
 
-    this.color = shaded ? 'rgb(38, 145, 52)' : 'rgb(35, 147, 50)'
-
-    this.endX = this.x + this.length * Math.sin(this.rotation);
+    this.endX = this.x + this.length * Math.sin(this.rotation); // does this belong here?
     this.endY = this.y - this.length * Math.cos(this.rotation);
 }
 
 Segment.prototype = {
     update: function() {
         if (this.maturity < 1) {
-            this.maturity += .001 * this.growthRate;
+            this.maturity += .01 * this.growthRate;
         } else {
             this.grown = true;
         }
@@ -67,18 +66,31 @@ Segment.prototype = {
     }
 }
 
-var Vine = function(width, taperFactor, rotation, rotationFactor, length, x, y) { 
-    this.width = width;
-    this.taperFactor = taperFactor;
-    this.rotation = rotation;
-    this.rotationFactor = rotationFactor;
-    this.length = length;
+var Vine = function(params) { 
+    this.width = params.width;
+    this.taperFactor = params.taperFactor;
+    this.rotation = params.rotation;
+    this.rotationFactor = params.rotationFactor;
+    this.length = params.length;
     this.grown = false;
-    this.x = x;
-    this.y = y;
+    this.x = params.x;
+    this.y = params.y;
 
-    let initialSegment = new Segment(this.x, this.y, false, this.rotation, this.width);
+    let initialSegment = new Segment({
+        x: this.x, 
+        y: this.y, 
+        shaded: false, 
+        rotation: this.rotation, 
+        width: this.width, 
+        growthRate: 10});
     this.segments = Array.of(initialSegment); 
+}
+
+// TODO remove
+let Curve = {
+    exponentialOut: function(k) {
+        return k === 0 ? 0 : Math.pow(1.5, k - 1);
+    }
 }
 
 
@@ -93,13 +105,21 @@ Vine.prototype = {
             let y = this.segments[i].endY;
             this.rotation += (Math.random() * this.rotationFactor * 2 - this.rotationFactor);  // switch to use random object
             this.width = Math.max(this.width*this.taperFactor, 1);
-            this.segments.push(new Segment(x, y, this.segments.length % 2, this.rotation, this.width)); 
+            this.segments.push(new Segment({
+                x: x, 
+                y: y, 
+                shaded: this.segments.length % 2, 
+                rotation: this.rotation, 
+                width: this.width, 
+                growthRate: Math.max(10 * Curve.exponentialOut((i+1)/15), 3)})); 
         } else {
             this.grown = true;
         }
     },
     draw: function(context) {
-        this.segments.forEach(function(segment) {segment.draw(context);});
+        this.segments.forEach(function(segment) {
+            segment.draw(context);
+        });
     }
 }
 
@@ -110,24 +130,25 @@ var Plant = function(x, y, vines, width, height, base) {
     this.width = width;
     this.height = height;
     this.base = base;
+    this.grown = false;
 
-    let vine = new Vine(5, 0.9, 0, 7, 9);
-    this.vines = Array.of(vine);
+    //let vine = new Vine(5, 0.9, 0, 7, 9);
+    this.vines = [] //Array.of(vine);
 }
 
 Plant.prototype = {
     update: function(){
         this.vines.forEach(function(vine) {vine.update();});
         if (this.vines.length <= this.MAX_VINES && Math.random() < .05) {
-            let width = Random.between(0.75 * this.width, this.width);
-            let taperFactor = Random.between(0.88, 0.9); 
-            let rotation = Random.between(-25, 12);
-            let rotationFactor = Random.between(1, 16);
-            let height = Random.between(0.35 * this.height, this.height);
-            let x = this.x + Random.between(-1 * this.base, this.base);
-            let y = this.y;
-
-            this.vines.push(new Vine(width, taperFactor, rotation, rotationFactor, height, x, y));
+            this.vines.push(new Vine({
+                width: Random.between(0.75 * this.width, this.width), 
+                taperFactor: Random.between(0.88, 0.9), 
+                rotation: Random.between(-25, 12), 
+                rotationFactor: Random.between(1, 16), 
+                length: Random.between(0.35 * this.height, this.height), 
+                x: this.x + Random.between(-1 * this.base, this.base), 
+                y: this.y
+            }));
         }
     },
     draw: function(context) {
