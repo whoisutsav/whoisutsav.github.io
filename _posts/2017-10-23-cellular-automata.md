@@ -1,36 +1,45 @@
 ---
 layout: post
-title:  "Cellular Automata"
-date:   2017-10-20 13:48:36 -0500
+title:  "Cellular Automata: an overview"
+date:   2017-10-23 13:48:36 -0500
 categories: 
 ---
 
-As a developer on web applications, I mainly thought of the computer as a sophisticated tool, and was primarily concerned with using it to create working programs.
+A cellular automaton is essentially a grid of cells, each of which can be in certain state. The cells evolve step-by-step according to fixed rules, which determine the new state of the cell based on its previous state and its neighbors' previous states.
 
-Recently, I've spent some time with a less web-development-focused topic - cellular automata - and not only is it an interesting contrast to typical web programming, which is concerned with structured, text-based-information, but it gave some initial exposure to the broader significance of computing itself.
+For example, we could have two states ("on" and "off"), and a rule that a cell is "on" if its above neighbor was "on" in its previous step, and "off" otherwise:
 
-To learn more about the idea of cellular automata, I began to read Stephen Wolfram's book _A New Kind of Science._
+![alt text](/assets/cellular_automata_1.jpg)
+<sub>A trivial example</sub>
 
-## Cellular Automata
+It is not unlike a recursive function call where the previous output is used as the next input. However there are a few characteristics that make it interesting to study: firstly, it is inherently visual. Next, the modification of cells' state depends only on adjacent cells, which makes cellular automata a candidate for modeling physical systems.
 
-Cellular Automata is essentially a space-based framework to express the evolution of systems based on certain rules. This is best illustrated by an example.
+## Features
 
-[ Example ]
+This seems at first to be a very basic idea. But because the outputs are visual, they lend themselves to empirical study, and one begins to notice all sorts of interesting behavior.
 
-It is not unlike a recursive function call where the previous output is used as the next input. However there are a few characteristics that make it interesting to study. The first is that it is a visual representation of computation. Just as visual representations of mathematical functions allows us to get a sense of their characteristics, the visual aspect of cellular automata gives us an extra input to understand and classify the behavior or programs. The next feature of cellular automata is that the computation is based on adjaceny. The evolution of cells is dependent on the values of its immediate neighbors. Since physical systems seem to behave in a similar way, this makes cellular automata a candidate for modeling natural phenomena
+Consider these examples:
 
-[ Another example ]
+![alt text](/assets/cellular_automata_2.jpg)
+<sub>Wolfram, _A New Kind of Science_, p. 25</sub>
+![alt text](/assets/cellular_automata_3.jpg)
+<sub>Wolfram, p. 27</sub>
 
-## Origins of Complexity
+One observation from the latter picture (also repeated in the picture's footnote) is that a very simple rule can lead to a very complex and unpredictable outcome. While anyone who has programmed computers understands this - programs often behave in ways we don't expect - here is a very clear and visible example.
 
-By running simple cellular automata experiments - what Wolfram does in his book - one begins to notice interesting properties of these programs. The most prominent one - and repeated over and over again in the book - is that programs with simple rules can lead to complex and basically random outcomes. Anyone who has written software can appreciate this - that programs can often behave in ways that we don't expect - but his argument goes further and says these outcomes cannot be predicted without performing thre computation, through, say, some mathematical formula.
+Another interesting fact is that it seems impossible to predict the outcome of this rule mathematically. One actually has to run the program to see the result. This is an idea known as _computational irreducibility_ - that for certain problems, one can only calculate the output of the program by actually running the computation. (See further reading, for more information).
 
-He refers to this notion as _computation irreducibility_ and makes several grand statements about it. The most poignant might be that science has been based on mathematical rules, but that these are just a subset of the more general notion of "rules." We must include these kinds of computation rules in our investigation of the universe, and that many of these rules have no analog in mathematics.
+## Simple operations
 
-I found this idea to be quite fascinating. That mathematics is the foundation, and consequently all science, is just assumed, and to question that idea is fascinating. Wolfram goes further and suggests that the rules of the universe may, instead of folowing a mathematical rule, follow a more general computational rule and we ought to investigate phenomena through this lens. He makes some attempts to do so in the book, and manages to produce simple programs that very closely simulate or mimic natural structures. But how to make this satisfyingly rigorous - so that we can say, yes, this is how nature behaves - remains to be seen.
+Cellular automata are not only a source of interesting pictures and patterns, they can be constructed to perform actual operations as well. Consider this automata:
 
-## Conclusion
+![alt text](/assets/cellular_automata_4.jpg)
+<sub>Wolfram, p. 638</sub>
+![alt text](/assets/cellular_automata_5.jpg)
+<sub>Wolfram, p. 662</sub>
 
-This is only a simple rehashing of just the very beginning of concepts that he develops in detail in the book. For example, he explores other computational systems besides cellular automata, such as networks. He also discusses computation in general, and fascinating examples about how cellular automata can simulate a universal computer.
+The second automata, while having more than two states, can perform a logical operation, in this case OR. Beyond these examples, automata have been found that perform other well-known operations, and there are even automata which are universal, which means they can perform any operation which is expressible as a computation.
 
-Even thorugh the book has had its share of criticism, I thought it was a fascinating introduction to concepts outside the realm of computing we usually deal with, and the argument that world might follow general computation lawas vs simply mathematical laws, allows one to see the computer not only as the incredibly useful tool that it is, but also as a key to some of the secrets of how Nature behaves.
+
+## Further reading
+An in-depth treatment of this subject (and the source of these pictures) is Wolfram's _A New Kind of Science._ 
