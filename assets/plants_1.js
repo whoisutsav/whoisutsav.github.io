@@ -2,8 +2,6 @@
 //
 //
 // NOTES
-// DONE - Attempt alpha-ing out
-// - Generate plants randomly
 // - Put randomness in constructors
 // - Context save/restore
 // - Add audio
@@ -11,132 +9,57 @@
 let CANVAS_WIDTH = 500;
 let CANVAS_HEIGHT = 400;
 
+const DEGREE_RAD = Math.PI/180;
+
 var Random = {
     between: function(min, max) {
         return Math.random() * (max - min) + min;
     }
 }
 
-var Segment = function(params) { 
-    this.x = params.x;
-    this.y = params.y;
-
-    this.rotation = (Math.PI/180) * params.rotation;
-    this.width = params.width;
-    this.growthRate = params.growthRate;
-    this.color = params.shaded ? 'rgb(38, 145, 52)' : 'rgb(35, 147, 50)'
-    this.alpha = params.alpha || 1.0; 
-
-    this.taper = (Math.PI/180) * 0.5;
-    this.maturity = 0;
-    this.length = 20; 
-    this.grown = false;
-
-    this.endX = this.x + this.length * Math.sin(this.rotation); // does this belong here?
-    this.endY = this.y - this.length * Math.cos(this.rotation);
-}
-
-Segment.prototype = {
-    update: function() {
-        if (this.maturity < 1) {
-            this.maturity += .01 * this.growthRate;
-        } else {
-            this.grown = true;
-        }
-    },
-    draw: function(context) {
-
-        let points = [];
-        let dx = (this.maturity * this.length) * Math.tan(this.taper);
-
-        points.push({x: -1 * this.width / 2, y: 0});
-        points.push({x: dx - this.width/2, y: -1 * this.maturity * this.length});
-        points.push({x: this.width/2 - dx, y: -1 * this.maturity * this.length});
-        points.push({x: this.width/2, y: 0});
-
-        let that = this;
-        points = points.map(function(point) {
-            let rotatedX = point.x * Math.cos(that.rotation) - point.y * Math.sin(that.rotation);
-            let rotatedY = point.x * Math.sin(that.rotation) + point.y * Math.cos(that.rotation);
-            return {x: rotatedX + that.x, y: rotatedY + that.y};
-        });
-
-
-        context.save();
-
-        context.globalAlpha = this.alpha;
-        context.fillStyle = this.color;
-        context.beginPath();
-        context.moveTo(points[0].x, points[0].y);
-        context.lineTo(points[1].x, points[1].y);
-        let controlX = (points[1].x + points[2].x)/2;
-        let controlY = points[1].y - 3;
-        context.quadraticCurveTo(controlX, controlY, points[2].x, points[2].y);
-        context.lineTo(points[3].x, points[3].y);
-        context.closePath();
-        context.fill();
-
-        context.restore();
-    }
-}
-
-// TODO remove
-let Curve = {
-    exponentialOut: function(k) {
-        return k === 0 ? 0 : Math.pow(1.5, k - 1);
-    }
-}
-
 var Vine = function(params) { 
-    this.width = params.width;
-    this.taperFactor = params.taperFactor;
-    this.rotation = params.rotation;
-    this.rotationFactor = params.rotationFactor;
-    this.length = params.length;
-    this.grown = false;
+    this.pctGrown = 0;
+
     this.x = params.x;
     this.y = params.y;
-    this.alpha = 0.8;
+    this.width = params.width;
+    this.length = params.length;
 
-    let initialSegment = new Segment({
-        x: this.x, 
-        y: this.y, 
-        shaded: false, 
-        rotation: this.rotation, 
-        width: this.width, 
-        growthRate: 10,
-        alpha: this.alpha});
-    this.segments = Array.of(initialSegment); 
+    this.slant = DEGREE_RAD * Random.between(-25, 12), 
+    this.curl = DEGREE_RAD * Random.between(1, 16), 
+    this.taper = Random.between(0.88, 0.9);
+
+    this.segments = []; 
+    this.build();
 }
 
 Vine.prototype = { 
-    update: function() {
-        let i = this.segments.length-1;
-
-        if (this.segments[i].grown === false) {
-            this.segments[i].update();
-        } else if (this.segments.length <= this.length) {
-            let x = this.segments[i].endX;
-            let y = this.segments[i].endY;
-            this.rotation += (Math.random() * this.rotationFactor * 2 - this.rotationFactor);  // switch to use random object
-            this.width = Math.max(this.width*this.taperFactor, 1);
-            this.segments.push(new Segment({
-                x: x, 
-                y: y, 
-                shaded: this.segments.length % 2, 
-                rotation: this.rotation, 
-                width: this.width, 
-                growthRate: Math.max(10 * Curve.exponentialOut((i+1)/15), 3)})); 
-        } else {
-            this.grown = true;
+    build: function() {
+        let sX = this.x;
+        let sY = this.y;
+        let width = this.width;
+        let rotation = this.slant;
+        for (let i = 0; i < this.length; i++) {
+            this.segments.push({
+                x: sX,
+                y: sY,
+                shaded: i % 2,
+                width: width,
+                rotation: rotation,
+                length: 20
+            });
+            sX += 20 * Math.sin(rotation);
+            sY -= 20 * Math.cos(rotation);
+            rotation += Random.between(-1 * this.curl, this.curl);
+            width = Math.max(width*this.taper, 1);
         }
     },
-    draw: function(context) {
-        let that = this;
-        this.segments.forEach(function(segment) {
-            segment.alpha = that.alpha;
-            segment.draw(context);
-        });
+    update: function() {
+        if(this.pctGrown <= 1 - 0.005) {
+            this.pctGrown += 0.005;
+        } else {
+            this.pctGrown = 1;
+        }
     }
 }
 
@@ -155,28 +78,64 @@ var Plant = function(x, y, vines, width, height, base) {
 
 Plant.prototype = {
     update: function(){
-        this.vines.forEach(function(vine) {vine.update();});
-        if (this.dead !== true && this.vines.length <= this.MAX_VINES) {
-            if (Math.random() < .05) {
-                this.vines.push(new Vine({
+        this.vines.forEach(function(vine) {
+            vine.update();
+        });
+        if (this.vines.length <= this.MAX_VINES && Math.random() < .05) {
+            let vine = new Vine({
                     width: Random.between(0.75 * this.width, this.width), 
-                    taperFactor: Random.between(0.88, 0.9), 
-                    rotation: Random.between(-25, 12), 
-                    rotationFactor: Random.between(1, 16), 
                     length: Random.between(0.35 * this.height, this.height), 
                     x: this.x + Random.between(-1 * this.base, this.base), 
                     y: this.y
-                }));
-            }
-        } else if (this.grown === false) {
-            this.grown = true;    
+                });
+            this.vines.push(vine);
         }
     },
     draw: function(context) {
         let that = this;
         this.vines.forEach(function(vine) {
-            vine.alpha = that.alpha;
-            vine.draw(context);
+            let n = vine.pctGrown * vine.segments.length;
+
+            let totalSegments = Math.ceil(n);
+            let i = 0;
+            let maturity = n > 1 ? 1 : n;
+
+            while (i < totalSegments) {
+                let segment = vine.segments[i];
+
+                let points = [];
+                let dx = (maturity * segment.length) * Math.tan((Math.PI/180) * 0.5);
+    
+                points.push({x: -1 * segment.width / 2, y: 0});
+                points.push({x: dx - segment.width/2, y: -1 * maturity * segment.length});
+                points.push({x: segment.width/2 - dx, y: -1 * maturity * segment.length});
+                points.push({x: segment.width/2, y: 0});
+    
+                points = points.map(function(point) {
+                    let rotatedX = point.x * Math.cos(segment.rotation) - point.y * Math.sin(segment.rotation);
+                    let rotatedY = point.x * Math.sin(segment.rotation) + point.y * Math.cos(segment.rotation);
+                    return {x: rotatedX + segment.x, y: rotatedY + segment.y};
+                });
+    
+                context.save();
+    
+                context.globalAlpha = that.alpha;
+                context.fillStyle = segment.shaded ? 'rgb(38, 145, 52)' : 'rgb(35, 147, 50)'
+                context.beginPath();
+                context.moveTo(points[0].x, points[0].y);
+                context.lineTo(points[1].x, points[1].y);
+                let controlX = (points[1].x + points[2].x)/2;
+                let controlY = points[1].y - 3;
+                context.quadraticCurveTo(controlX, controlY, points[2].x, points[2].y);
+                context.lineTo(points[3].x, points[3].y);
+                context.closePath();
+                context.fill();
+    
+                context.restore();
+
+                i +=1;
+                maturity = i === totalSegments - 1 ? n - i : 1;
+            }
         });
     }
 }
@@ -204,7 +163,7 @@ var World = new function() {
                 deadPlants.push(plant);
                 var tween = new TWEEN.Tween(plant)
                     .to({ alpha: 0 }, 5000)
-                    .easing(TWEEN.Easing.Sinusoidal.InOut) 
+                    .easing(TWEEN.Easing.Exponential.In) 
                     .delay(1000) 
                     .onComplete(respawn)
                     .start(); 
@@ -222,7 +181,6 @@ var World = new function() {
         let i = deadPlants.find(function(d) {
             return d === plant;
         });
-        console.log(i);
         deadPlants.splice(i, 1);
 
         let num = Math.floor(Random.between(0, 4)); 
