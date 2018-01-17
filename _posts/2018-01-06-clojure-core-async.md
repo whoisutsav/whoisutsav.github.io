@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Clojure core.async - introduction"
+title:  "Clojure's core.async - an introduction"
 date:   2018-01-06 11:16:36 -0500
 categories: 
 ---
@@ -17,8 +17,7 @@ Clojure's core.async builds on these general ideas, with a few nuances. First, t
 
 The other notable feature is that Clojure enables channel buffering, with the requirement that the buffers be bounded.
 
-## Examples
-#### Putting/taking messages
+## Example
 
 ```
 (defn- put-task [c]
@@ -34,6 +33,12 @@ The other notable feature is that Clojure enables channel buffering, with the re
       (str "Received message from channel: ")
       (println))
     (close! c)))
+  
+
+user=> (example)
+"Started thread"
+"Putting message on channel"
+"Got message from channel: test message"
 	
 ```
 
