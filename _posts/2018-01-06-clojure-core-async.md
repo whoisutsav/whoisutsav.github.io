@@ -19,11 +19,20 @@ The other notable feature is that Clojure enables channel buffering, with the re
 
 ## Example
 
+Below is a simple example that utilizes the following constructs from core.async:
+
+* `(chan)` returns an unbuffered channel
+* `(>!! ch message)` puts a given message on a channel. Blocks until a receiver is ready
+* `(<!! ch)` takes a channel and returns the next message from the channel. Blocks until a message is delivered to the channel
+* `(thread & body)` takes a body and executes the body on a separate thread
+
+### Simple put-receive
+
 ```
 (defn- put-task [c]
   (Thread/sleep 1000)
   (println "Putting message on channel")
-  (>!! c "message"))
+  (>!! c "test message"))
 
 (defn example []
   (let [c (chan)]
@@ -38,7 +47,7 @@ The other notable feature is that Clojure enables channel buffering, with the re
 user=> (example)
 "Started thread"
 "Putting message on channel"
-"Got message from channel: test message"
+"Received message from channel: test message"
 	
 ```
 
