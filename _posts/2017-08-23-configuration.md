@@ -2,6 +2,7 @@
 layout: post
 title:  "Configuration: an exploration of basic principles"
 date:   2017-08-23 11:16:36 -0500
+published: false
 categories: 
 ---
 

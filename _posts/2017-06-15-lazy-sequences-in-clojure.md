@@ -2,6 +2,7 @@
 layout: post
 title:  "Lazy Sequences in Clojure"
 date:   2017-06-15 11:16:36 -0500
+published: false
 categories: 
 ---
 One unique feature of Clojure is the ability to create and manipulate infinite sequences.An example is the sequence returned by `(range)`. If you run the following in your REPL:
