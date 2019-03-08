@@ -2,6 +2,7 @@
 layout: post
 title:  "Clojure's core.async - an introduction"
 date:   2018-01-06 11:16:36 -0500
+published: false
 categories: 
 ---
 Clojure's core.async is a library that enables Clojure developers to build async programs. In this post we briefly introduce the principles behind core.async, namely CSP.

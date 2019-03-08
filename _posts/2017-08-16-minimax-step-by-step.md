@@ -2,6 +2,7 @@
 layout: post
 title:  "Thinking through minimax step-by-step"
 date:   2017-08-16 12:14:36 -0500
+published: false
 categories: 
 ---
 

@@ -2,6 +2,7 @@
 layout: post
 title:  "Cellular Automata: an overview"
 date:   2017-10-23 13:48:36 -0500
+published: false
 categories: 
 ---
 

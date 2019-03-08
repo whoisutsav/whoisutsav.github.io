@@ -2,6 +2,7 @@
 layout: post
 title:  "Concept and Formalism in Mathematics"
 date:   2017-10-17 13:48:36 -0500
+published: false
 categories: 
 ---
 
