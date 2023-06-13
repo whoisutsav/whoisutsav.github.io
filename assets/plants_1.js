@@ -150,8 +150,8 @@ var World = new function() {
 
     function init() {
         ctx = document.getElementById('canvas').getContext('2d');
-        plants.push(new Plant(200, CANVAS_HEIGHT, 30, 4, 19, 15));
-        plants.push(new Plant(350, CANVAS_HEIGHT, 20, 2, 7, 10));
+        plants.push(new Plant(CANVAS_WIDTH/3, CANVAS_HEIGHT, 30, 4, 19, 15));
+        plants.push(new Plant(CANVAS_WIDTH*4/5, CANVAS_HEIGHT, 20, 2, 7, 10));
 
         draw();
     }

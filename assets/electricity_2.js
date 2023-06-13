@@ -1,7 +1,8 @@
 // Electricity II
 
-const CANVAS_WIDTH = 500;
-const CANVAS_HEIGHT = 500;
+// resized in init()
+let CANVAS_WIDTH = -1
+let CANVAS_HEIGHT = -1
 
 
 const Random = new function() {
@@ -99,6 +100,10 @@ var World = new function() {
 function init() {
     var base = document.getElementById('container');
     var canvas = document.createElement('canvas');
+
+	CANVAS_WIDTH = Math.min(500, window.innerWidth - (window.scrollX + document.getElementById('container').getBoundingClientRect().left) - 10)
+	CANVAS_HEIGHT = Math.min(500, window.innerHeight - (window.scrollY + document.getElementById('container').getBoundingClientRect().top) - 20)
+
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
     canvas.id = 'canvas';
