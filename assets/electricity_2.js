@@ -107,7 +107,7 @@ function init() {
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
     canvas.id = 'canvas';
-    canvas.style="border-color: gray; border-style: solid; border-width: 1px"
+    canvas.style="border-color: lightgray; border-style: solid; border-width: 1px"
     base.appendChild(canvas);
     World.init();
 }
