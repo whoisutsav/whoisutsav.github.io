@@ -6,8 +6,11 @@
 // - Context save/restore
 // - Add audio
 
-let CANVAS_WIDTH = 500;
-let CANVAS_HEIGHT = 400;
+// initialized in init()
+let CANVAS_WIDTH = -1;
+let CANVAS_DITH = -1
+//let CANVAS_WIDTH = 500
+//let CANVAS_HEIGHT = 400;
 
 const DEGREE_RAD = Math.PI/180;
 
@@ -147,8 +150,8 @@ var World = new function() {
 
     function init() {
         ctx = document.getElementById('canvas').getContext('2d');
-        plants.push(new Plant(200, 400, 30, 4, 19, 15));
-        plants.push(new Plant(350, 400, 20, 2, 7, 10));
+        plants.push(new Plant(200, CANVAS_HEIGHT, 30, 4, 19, 15));
+        plants.push(new Plant(350, CANVAS_HEIGHT, 20, 2, 7, 10));
 
         draw();
     }
@@ -195,7 +198,7 @@ var World = new function() {
         }
         if(seeds && plants.length < 3) {
             seeds.forEach(function(x) {
-                let plant = new Plant(x, 400, Random.between(15, 40), Random.between(2, 4), Random.between(5, 21), Random.between(7, 17));
+                let plant = new Plant(x, CANVAS_HEIGHT, Random.between(15, 40), Random.between(2, 4), Random.between(5, 21), Random.between(7, 17));
                 plants.push(plant);
             });
         }
@@ -211,10 +214,14 @@ var World = new function() {
 function init() {
     var base = document.getElementById('container');
     var canvas = document.createElement('canvas');
+	
+	CANVAS_WIDTH = Math.min(500, window.innerWidth - (window.scrollX + document.getElementById('container').getBoundingClientRect().left) - 10)
+	CANVAS_HEIGHT = Math.min(450, window.innerHeight - (window.scrollY + document.getElementById('container').getBoundingClientRect().top) - 20)
+
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
     canvas.id = 'canvas';
-    canvas.style="border-color: gray; border-style: solid; border-width: 1px"
+    canvas.style="border-color: lightgray; border-style: solid; border-width: 1px"
     base.appendChild(canvas);
     
     World.init();
