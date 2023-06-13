@@ -23,6 +23,7 @@ var Ring = function(x, y, r) {
     this.centerY = y;
     this.r = r;
     this.points = this.init();
+	this.iterations=0;
 
 }
 
@@ -42,7 +43,10 @@ Ring.prototype = {
     },
 
     update: function() {
-        this.points = this.init();
+		this.iterations++;
+		if (this.iterations < 1000) {
+			this.points = this.init();
+		}
     },
 
     render: function(context) {
